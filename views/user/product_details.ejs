@@ -1,0 +1,303 @@
+<%- include('navbar.ejs') %>
+<!-- Breadcrumbs -->
+<section class="breadcrumb-section py-3 bg-light">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="products.html">Products</a></li>
+                <li class="breadcrumb-item"><a href="products.html?category=smartphones">Smartphones</a></li>
+                <li class="breadcrumb-item active">iPhone 15 Pro</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<!-- Product Details -->
+<section class="product-details-section py-5">
+    <div class="container">
+        <div class="row g-5">
+            <!-- Product Gallery -->
+            <div class="col-lg-6">
+                <div class="product-gallery sticky-top" style="top: 100px;">
+                    <img src="/uploads/<%- product[0].product_main_image %>" class="img-fluid main-image" alt="<%- product[0].product_name%>">
+                    
+                    <!-- Thumbnails -->
+                    <div class="row g-2 mt-3">
+                        <div class="col-3">
+                            <img src="https://images.unsplash.com/photo-1592750475338-74b7b21085ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" class="img-fluid thumbnail active" alt="iPhone 15 Pro Front">
+                        </div>
+                        <div class="col-3">
+                            <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" class="img-fluid thumbnail" alt="iPhone 15 Pro Back">
+                        </div>
+                        <div class="col-3">
+                            <img src="https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" class="img-fluid thumbnail" alt="iPhone 15 Pro Side">
+                        </div>
+                        <div class="col-3">
+                            <img src="https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" class="img-fluid thumbnail" alt="iPhone 15 Pro Camera">
+                        </div>
+                    </div>
+                    
+                  
+                </div>
+            </div>
+            
+            <!-- Product Info -->
+            <div class="col-lg-6">
+                <div class="product-info">
+                    <h1 class="h2 mb-3"><%- product[0].product_name %></h1>
+                    
+                    
+                    <!-- Price -->
+                    <div class="product-price mb-4">
+                        <span class="current-price h3">&#8377; <%- product_variation[0].variation_price %></span>
+                        <span class="old-price ms-2">&#8377;  <%- product_variation[0].variation_market_price %></span>
+                        <span class="badge bg-success ms-2">Save <%- product_variation[0].variation_market_price  - product_variation[0].variation_price%></span>
+                    </div>
+                    
+                    <!-- Stock Status -->
+                    <div class="mb-4">
+                        <span class="stock-badge bg-success text-white">Only  <%- product_variation[0].available_stock %> Qty Left</span>
+                        <span class="text-muted ms-2">Usually ships within 1-2 business days</span>
+                    </div>
+                    
+                    <!-- Product Variations -->
+                    <div class="mb-4">
+                        <h6 class="mb-3">variations</h6>
+                        <div class="variation-group d-flex flex-wrap">
+                            <% for(var i=0; i<variations_list.length; i++) { %>
+                                <a href="/product_details/<%- product[0].product_id %>/<%- variations_list[i].variation_id %>"></a>
+                            <button class="variation-option  <%- (variations_list[i].variation_id == product_variation[0].variation_id) ? 'active':'' %>">
+                               
+                                <%- variations_list[i].variation_title %>
+                            </button>
+                       <%  } %>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h6 class="mb-3">Color</h6>
+                        <div class="variation-group d-flex flex-wrap">
+                           
+                            <%-  colors = product[0].product_colors.split(",") %>
+                            <input type="text" name="color" value="<%- req.query.color %>" id="color_box">
+                            <% for(var i=0; i<colors.length; i++) { %>
+                                <a href="/product_details/<%- product[0].product_id %>/<%- product_variation[0].variation_id %>?color=<%- colors[i] %>">
+                            <button class="variation-option-color-options <%-(i==0) ? 'active':'' %>" onclick="setColor('<%- colors[i] %>',this)">
+
+                             <div class="d-flex align-items-center">
+                            <div class="color-swatch me-2" style="background-color:<%- colors[i] %>; width: 20px; height: 20px; border-radius: 50%;"></div>
+                                   <%- colors[i] %>
+                                </div>
+                            </button>
+                        </a>
+                        <% } %>
+                        </div>
+                    </div>
+                    
+                    <!-- Quantity -->
+                    <div class="mb-4">
+                        <h6 class="mb-3">Quantity</h6>
+                        <div class="quantity-stepper d-inline-flex">
+                            <button type="button" class="btn-minus">-</button>
+                            <input type="number" id="quantity_box" value="<%- cart.length > 0 ? cart[0].quantity : 1 %>" min="1" max="10" class="form-control text-center">
+                            <button type="button" class="btn-plus">+</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="d-grid gap-3 mb-4">
+
+                        <% if(req.session.user_id) { %>
+                            <% if(cart.length > 0) { %>
+                        <button class="btn btn-primary btn-lg">
+                            <i class="bi bi-check-circle-fill me-2"></i>Already in Cart
+                        </button>
+                    <% }  else  { %>
+
+                        <button class="btn btn-primary btn-lg" onclick="addtocard()">
+                            <i class="bi bi-cart-plus me-2"></i>Add to Cart
+                        </button>
+                        
+                         <% } %>
+                         <% } else { %> 
+
+                        <a href="/login?redirect=/product_details/<%- product[0].product_id %>/<%- product_variation[0].variation_id %>" class="w-100">
+                            <button class="btn btn-primary btn-lg w-100">
+                                <i class="bi bi-cart-plus me-2"></i>Add to Cart
+                            </button>
+
+                        </a>
+                        <% } %>
+                        <button class="btn btn-outline-secondary" onclick="toggleWishlist()">
+                            <i class="bi bi-heart me-2"></i>Add to Wishlist
+                        </button>
+                
+
+
+                    
+                    <!-- Features -->
+                    <div class="mb-4">
+                        <h6 class="mb-3">Key Features</h6>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Titanium design with Ceramic Shield</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>A17 Pro chip with 6-core GPU</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Pro camera system with 48MP main camera</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Action Button for quick access</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>USB-C connector</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Shipping Info -->
+                    <div class="alert alert-info">
+                        <i class="bi bi-truck me-2"></i>
+                        <strong>Free Shipping</strong> on orders over $50. Express delivery available.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function setColor(color,button,elmt){
+        document.getElementById('color_box').value = color;
+    $(".variation-option-color-options").removeClass('active');
+        button.classList.add('active');
+    }
+    function addtocard() {
+        var product_id = '<%- product[0].product_id %>';
+        var variation_id = '<%- product_variation[0].variation_id %>';
+        var color = document.getElementById('color_box').value;
+        var quantity = document.getElementById('quantity_box').value;
+       
+        if(color == ''){
+            alert('please select a color');
+          return;
+        }
+        // console.log(product_id,variation_id,color,quantity);
+        var url = `/add_to_cart?product_id=${product_id}&variation_id=${variation_id}&color=${color}&quantity=${quantity}`;
+        window.location.href = url;
+    }
+</script>
+    <div class="container">
+        <h3 class="text-center mb-5">Related Products</h3>
+        
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="product-card" data-product-id="10" data-product-name="iPhone 15" data-product-price="799" data-product-image="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80">
+                    <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="card-img-top" alt="iPhone 15">
+                    <div class="card-body">
+                        <h5 class="product-title">iPhone 15</h5>
+                        <div class="product-price">
+                            <span class="current-price">$799</span>
+                        </div>
+                        <div class="rating">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <span class="text-muted ms-2">(4.7)</span>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-add-cart flex-fill">
+                                <i class="bi bi-cart-plus me-2"></i>Add to Cart
+                            </button>
+                            <button class="btn btn-wishlist">
+                                <i class="bi bi-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+                <div class="product-card" data-product-id="11" data-product-name="AirPods Pro 2" data-product-price="249" data-product-image="https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80">
+                    <img src="https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="card-img-top" alt="AirPods Pro 2">
+                    <div class="card-body">
+                        <h5 class="product-title">AirPods Pro 2</h5>
+                        <div class="product-price">
+                            <span class="current-price">$249</span>
+                        </div>
+                        <div class="rating">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <span class="text-muted ms-2">(4.9)</span>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-add-cart flex-fill">
+                                <i class="bi bi-cart-plus me-2"></i>Add to Cart
+                            </button>
+                            <button class="btn btn-wishlist">
+                                <i class="bi bi-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+                <div class="product-card" data-product-id="12" data-product-name="Apple Watch Series 9" data-product-price="399" data-product-image="https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80">
+                    <img src="https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="card-img-top" alt="Apple Watch Series 9">
+                    <div class="card-body">
+                        <h5 class="product-title">Apple Watch Series 9</h5>
+                        <div class="product-price">
+                            <span class="current-price">$399</span>
+                        </div>
+                        <div class="rating">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <span class="text-muted ms-2">(4.6)</span>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-add-cart flex-fill">
+                                <i class="bi bi-cart-plus me-2"></i>Add to Cart
+                            </button>
+                            <button class="btn btn-wishlist">
+                                <i class="bi bi-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+                <div class="product-card" data-product-id="13" data-product-name="MagSafe Charger" data-product-price="39" data-product-image="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80">
+                    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="card-img-top" alt="MagSafe Charger">
+                    <div class="card-body">
+                        <h5 class="product-title">MagSafe Charger</h5>
+                        <div class="product-price">
+                            <span class="current-price">$39</span>
+                        </div>
+                        <div class="rating">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star"></i>
+                            <span class="text-muted ms-2">(4.3)</span>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-add-cart flex-fill">
+                                <i class="bi bi-cart-plus me-2"></i>Add to Cart
+                            </button>
+                            <button class="btn btn-wishlist">
+                                <i class="bi bi-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> 
+
+
+<%- include('footer.ejs') %>

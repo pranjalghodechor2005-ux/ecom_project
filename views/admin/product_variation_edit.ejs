@@ -1,0 +1,36 @@
+<%- include('navbar.ejs') %>
+<div class="container bg-white p-4 shadow-sm">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Edit Product Variation</h1>
+    </div>
+  </div>
+  <form action="/admin/update_product_variation" method="POST">
+    <input type="hidden" name="variation_id" value="<%= product[0].variation_id %>">
+    <input type="hidden" name="product_id" value="<%= product[0].product_id %>">
+
+    <div class="row">
+      <div class="col-md-6 mt-3">
+        <label>Variation Title</label>
+        <input type="text" name="variation_title" class="form-control" value="<%= product[0].variation_title %>" required>
+      </div>
+      <div class="col-md-6 mt-3">
+        <label>Market Price</label>
+        <input type="number" name="variation_market_price" class="form-control" value="<%= product[0].variation_market_price %>" required>
+      </div>
+      <div class="col-md-6 mt-3">
+        <label>Variation Price</label>
+        <input type="number" name="variation_price" class="form-control" value="<%= product[0].variation_price %>" required>
+      </div>
+      <div class="col-md-6 mt-3">
+        <label>Available Stock</label>
+        <input type="number" name="available_stock" class="form-control" value="<%= product[0].available_stock %>" required>
+      </div>
+      <div class="col-md-12 mt-3 text-center">
+        <button type="submit" class="btn btn-primary">Update Variation</button>
+        <a href="/admin/add_product_varients/<%= product[0].product_id %>" class="btn btn-secondary">Cancel</a>
+      </div>
+    </div>
+  </form>
+</div>
+<%- include('footer.ejs') %>

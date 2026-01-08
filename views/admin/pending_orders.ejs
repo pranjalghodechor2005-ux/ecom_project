@@ -1,0 +1,89 @@
+<%- include('navbar.ejs') %>
+<div class="container my-5">
+    <div class="row mb-4">
+        <div class="col">
+            <h2 class="fw-bold text-primary">Pending Orders</h2>
+            <hr>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="table-responsive shadow rounded">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Order ID</th>
+                            <th scope="col">Order Date</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Order Status</th>
+                            <th scope="col">Total Amount</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (orders.length === 0) { %>
+                            <tr>
+                                <td colspan="6" class="text-center text-muted py-4">No pending orders found.</td>
+                            </tr>
+                        <% } else { %>
+                            <% for(var i=0; i<orders.length; i++) { %>
+                                <tr>
+                                    <td class="fw-semibold"><%= orders[i].order_id %></td>
+                                    <td><%= orders[i].order_date.toLocaleDateString('en-CA') %></td>
+                                    <td><%= orders[i].address %></td>
+                                    <td>
+                                        <span class="badge bg-warning text-dark"><%= orders[i].order_status %></span>
+                                    </td>
+                                    <td>
+                                        <span class="text-success fw-bold">&#8377;<%= orders[i].total_amount %></span>
+                                    </td>
+                                    <td>
+                                        <a href="/admin/order_details/<%= orders[i].order_id %>" class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-eye"></i> Details
+                                        </a>
+                                    </td>
+                                </tr>
+                            <% } %>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <h4>Order Products</h4>
+    <table class="table">
+        <tr>
+            <th>Product Name</th>
+            <th>Product Price</th>
+            <th>Product Quantity</th>
+            <th>Product Total Price</th>
+            <th>Product Color</th>
+            <th>Product Image</th>
+            <th>Product Variation</th>
+            <th>Product Market Price</th>
+            </tr>
+
+            <% for(var i=0; i<orders.length; i++) { %>
+                <tr>
+                    <td><%- orders[i].Product_name %></td>
+                    <td><%- orders[i].Product_price %></td>
+                    <td><%- orders[i].Product_quantity %></td>
+                    <td><%- orders[i].Product_total_price %></td>
+                    <td><%- orders[i].color %></td>
+                    <td><%- orders[i].product_main_image %></td>
+                    <td><%- orders[i].product_variation %></td>
+                    <td><%- orders[i].product_market_price %></td>
+                </tr>
+                <% } %>
+    </table>
+</div>
+
+
+<%- include('footer.ejs') %>
+
+
+
+

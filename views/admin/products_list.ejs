@@ -1,0 +1,45 @@
+<%- include('navbar.ejs') %>
+<div class="container bg-white p-4 shadow-sm">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Products list</h3>
+        </div>
+        <div class="col-md-12">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Product Brand</th>
+                        <!-- <th>Product Details</th> -->
+                        <th>Product Colors</th>
+                        <th>Product Main Image</th>
+                        <th>Is Heighlightd</th>
+                        <th>Is Most Selling</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(var i=0; i<products.length; i++) { %>
+                    <tr>
+                        <td><%= products[i].product_name %></td>
+                        <td><%= products[i].product_brand %></td>
+                        <td><%= products[i].product_colors %></td>
+                        <td>
+                            <img src="/uploads/<%= products[i].product_main_image %>" alt="<%= products[i].product_name %>" style="width: 150px; height: 100px; object-fit: cover;">
+                        </td>
+                        <td><%= products[i].is_highlighted  %></td>
+                        <td><%= products[i].is_most_selling  %></td>
+                        <td>
+                            <a href="/admin/edit_product/<%= products[i].product_id %>" class="btn btn-primary btn-sm">Edit</a>
+                            <a href="/admin/delete_product/<%= products[i].product_id %>" class="btn btn-danger btn-sm">Delete</a>
+                             <a href="/admin/add_product_varients/<%= products[i].product_id %>"class="btn btn-success">Add Varients</a>
+                        </td>
+                    </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<%- include('footer.ejs') %>
+

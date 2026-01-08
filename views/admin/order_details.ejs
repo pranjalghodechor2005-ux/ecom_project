@@ -1,0 +1,48 @@
+<%- include('navbar.ejs') %>
+<div class="container my-4">
+  <h4 class="mb-4">Order Details</h4>
+  <div class="row">
+    <!-- Left Part: Customer & Shipping Info -->
+    <div class="col-md-6 mb-4">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          Customer & Shipping Info
+        </div>
+        <div class="card-body">
+          <p><strong>Order ID:</strong> <%= order[0].order_id %></p>
+          <p><strong>First Name:</strong> <%= order[0].first_name %></p>
+          <p><strong>Last Name:</strong> <%= order[0].last_name %></p>
+          <p><strong>Email:</strong> <%= order[0].email %></p>
+          <p><strong>Phone:</strong> <%= order[0].phone %></p>
+          <p><strong>Address:</strong> <%= order[0].address %></p>
+          <p><strong>City:</strong> <%= order[0].city %></p>
+          <p><strong>State:</strong> <%= order[0].state %></p>
+          <p><strong>Zip Code:</strong> <%= order[0].zip_code %></p>
+          <p><strong>Notes:</strong> <%= order[0].notes %></p>
+        </div>
+      </div>
+    </div>
+    <!-- Right Part: Order & Payment Info -->
+    <div class="col-md-6 mb-4">
+      <div class="card">
+        <div class="card-header bg-success text-white">
+          Order & Payment Info
+        </div>
+        <div class="card-body">
+          <p><strong>Payment:</strong> <%= order[0].payment %></p>
+          <p><strong>Payment Status:</strong> <%= order[0].payment_status %></p>
+          <p><strong>Transaction ID:</strong> <%= order[0].transaction_id %></p>
+          <p><strong>Total Amount:</strong> <%= order[0].total_amount %></p>
+          <p><strong>Order Date:</strong> <%= order[0].order_date %></p>
+          <p><strong>Dispatch Date:</strong> <%= order[0].dispatch_date %></p>
+          <p><strong>Deliver Date:</strong> <%= order[0].deliver_date %></p>
+          <p><strong>Return Date:</strong> <%= order[0].return_date %></p>
+          <p><strong>Refund Date:</strong> <%= order[0].refund_date %></p>
+          <p><strong>Cancel Date:</strong> <%= order[0].cancel_date %></p>
+          <p><strong>Order Status:</strong> <%= order[0].order_status %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('footer.ejs') %>

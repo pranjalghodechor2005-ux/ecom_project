@@ -1,0 +1,43 @@
+<h1>Pay Now</h1>
+
+<%- order[0].first_name %> <br>
+<%- order[0].last_name%> <br>
+<%- order[0].email %> <br>
+<%- order[0].phone %> <br>
+<%- order[0].address %> <br>
+<%- order[0].city %> <br>
+<%- order[0].State %> <br>
+<%- order[0].zip_code %> <br>
+<%- order[0].payment %> <br>
+<%- order[0].payment_status %> <br>
+<%- order[0].transaction_id %> <br>
+<%- order[0].total_amount %> <br>
+
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    var options = {
+    "key" :  "rzp_test_GmXyAFAK01Uo7t",
+    "amount": "<%- order[0].total_amount * 100 %>",
+    "currency":"INR",
+    "name" : "A2Z ECOM",
+    "description" :"",
+    "image" : "https://a2zithub.org/uploads/173114251034582044.png",
+    "callback_url" : "http://localhost:1000/verify-payment/<%- order[0].order_id %>",
+    "prefill" : {
+        "name":"<%- order[0].first_name %> <%- order[0].last_name %>",
+        "email":"<%- order[0].email %>",
+        "contact":"<%- order[0].phone %>"
+    },
+    "notes":{
+        "address":" <%- order[0].address %>"
+    },
+    "theme":{
+        "color":"#FF0000"
+    }
+};
+var rzp1 = new Razorpay(options);
+    rzp1.open();
+
+
+</script>

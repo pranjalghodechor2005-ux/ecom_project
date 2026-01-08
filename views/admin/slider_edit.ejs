@@ -1,0 +1,54 @@
+<%- include('navbar.ejs') %>
+
+<% var s = info && info.length ? info[0] : {}; %>
+<form action="/admin/update_slider" method="post" enctype="multipart/form-data">
+    <div class="container bg-white p-4 shadow-sm">
+        <div class="col-md-12">
+            <h1>Edit Slider</h1>
+        </div>
+
+        <input type="hidden" name="slider_id" value="<%= s.slider_id %>">
+        <input type="hidden" name="old_slider_image" value="<%= s.slider_image %>">
+
+        <div class="col-md-6 mt-3">
+            Current Image
+            <div>
+                <img src="/uploads/<%= s.slider_image %>" class="img-fluid" style="width:150px;">
+            </div>
+        </div>
+
+        <div class="col-md-6 mt-3">
+            New Slider Image (optional)
+            <input type="file" name="slider_image" class="form-control">
+        </div>
+
+        <div class="col-md-6 mt-3">
+            Slider Title
+            <input type="text" name="slider_title" class="form-control" value="<%= s.slider_title %>">
+        </div>
+
+        <div class="col-md-6 mt-3">
+            Slider Description
+            <input type="text" name="slider_description" class="form-control" value="<%= s.slider_description %>">
+        </div>
+
+        <div class="col-md-6 mt-3">
+            Slider Button Text
+            <input type="text" name="slider_button_text" class="form-control" value="<%= s.slider_button_text %>">
+        </div>
+
+        <div class="col-md-6 mt-3">
+            Slider Button link
+            <input type="text" name="slider_button_link" class="form-control" value="<%= s.slider_button_link %>">
+        </div>
+
+        <div class="col-md-12 mt-3 text-center">
+           <button type="submit" class="btn btn-primary">Update Slider</button>
+           <a href="/admin/slider" class="btn btn-secondary ms-2">Cancel</a>
+        </div>
+    </div>
+</form>
+
+<%- include('footer.ejs') %>
+
+

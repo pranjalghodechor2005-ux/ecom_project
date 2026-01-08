@@ -1,0 +1,56 @@
+<%- include('navbar.ejs') %>
+
+<div class="container bg-white p-4 rounded">
+    <h1>Edit Category</h1>
+    
+    <form action="/admin/update_admin" method="post" enctype="multipart/form-data">
+        <input type="hidden" class="form-control" name="category_id" value="<%- info[0].category_id %>">
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Category Name</label>
+                    <input type="text" class="form-control" name="new_category_name" value="<%- info[0].category_name%>" required>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Category Status</label>
+                    <select name="new_category_status" class="form-control">
+                        <option value="Active" <%= info[0].category_status === 'Active' ? 'selected' : '' %>>Active</option>
+                        <option value="Inactive" <%= info[0].category_status === 'Inactive' ? 'selected' : '' %>>Inactive</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Current Image</label>
+                    <% if(info[0].category_image) { %>
+                        <img src="/uploads/<%- info[0].category_image %>" alt="Current Category Image" width="150px" height="150px" style="object-fit: cover; border: 1px solid #ddd; border-radius: 5px;">
+                    <% } else { %>
+                        <p class="text-muted">No image uploaded</p>
+                    <% } %>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Upload New Image (Optional)</label>
+                    <input type="file" class="form-control" name="new_category_image" accept="image/*">
+                    <small class="form-text text-muted">Leave empty to keep current image</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Update Category</button>
+            <a href="/admin/category" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<%- include('footer.ejs') %>
